@@ -1,9 +1,41 @@
-version: '2'
 services:
-  php:
+  backend:
     image: yiisoftware/yii2-php:8.4-fpm-nginx
+    container_name: yii2
     volumes:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./backend:/app:delegated
     ports:
       - '8000:80'
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - app-network
+    
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_PASSWORD: test
+      MYSQL_USER: test
+      MYSQL_DATABASE: app
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
