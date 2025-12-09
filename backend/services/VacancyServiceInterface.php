@@ -6,7 +6,7 @@ use yii\data\ActiveDataProvider;
 
 interface VacancyServiceInterface
 {
-    public function getList($params): ActiveDataProvider;
+    public function getList(): array;
 
     public function getOne($id): ?Vacancy;
 

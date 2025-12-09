@@ -30,9 +30,9 @@ class VacancyController extends Controller
     /**
      * Список вакансий
      */
-    public function actionIndex(): ActiveDataProvider
+    public function actionIndex(): array
     {
-        return $this->service->getList(\Yii::$app->request->get());
+        return $this->service->getList();
     }
 
     /**

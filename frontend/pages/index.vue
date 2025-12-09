@@ -67,7 +67,7 @@
     </nav>
     
     <div class="text-center text-muted mt-2">
-      Показано {{ vacancies.length }} из {{ pagination.total }} вакансий
+      Показано {{ getShowedCount() }} из {{ pagination.totalCount }} вакансий
     </div>
   </div>
 </template>
@@ -81,7 +81,7 @@ const sortBy = ref('-created_at')
 const currentPage = ref(1)
 
 const pagination = reactive({
-  total: 0,
+  totalCount: 0,
   pageCount: 0,
   currentPage: currentPage.value,
   perPage: 10
@@ -106,6 +106,10 @@ const changePage = (page: number) => {
   if (page < 1 || page > pagination.pageCount) return
   currentPage.value = page
   loadVacancies()
+}
+
+const getShowedCount = () => {
+  return Math.min(pagination.currentPage * pagination.perPage, pagination.totalCount)
 }
 
 onMounted(() => {

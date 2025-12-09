@@ -12,14 +12,14 @@ export interface CreateVacancyResponse {
     errors?: Record<string, string[]>
 }
 
-export interface PaginationHeaders {
-    total: number
+export interface PaginationResponse {
+    totalCount: number
     pageCount: number
     currentPage: number
     perPage: number
 }
 
-export interface VacancyResponse {
+export interface VacancyListResponse {
     vacancies: Vacancy[]
-    pagination: PaginationHeaders
+    pagination: PaginationResponse
 }

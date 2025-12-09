@@ -33,6 +33,9 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'vacancy', ],
             ],
         ],
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+        ]
     ],
     'container' => [
         'definitions' => [

@@ -12,6 +12,18 @@ services:
         condition: service_healthy
     networks:
       - app-network
+        
+  migrate:
+    image: yiisoftware/yii2-php:8.4-fpm-nginx
+    container_name: yii2-migrate
+    volumes:
+      - ./backend:/app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: php yii migrate --interactive=0
+    networks:
+      - app-network
     
   mysql:
     image: mysql:latest
@@ -33,6 +45,20 @@ services:
       retries: 10
     networks:
       - app-network
+  
+  nuxt:
+    image: node:20
+    container_name: nuxt
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    volumes:
+      - ./frontend:/app
 
 volumes:
   mysql_data:
